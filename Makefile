@@ -8,13 +8,13 @@ dropdb:
 	docker exec -it postgres12 dropdb simple_bank
 
 migrateup:
-	migrate -path ./db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
 pgadmin:
 	docker run -p 8082:80 -e 'PGADMIN_DEFAULT_EMAIL=dasd@dasd.com' -e 'PGADMIN_DEFAULT_PASSWORD=Secret' -d dpage/pgadmin4
 
 migratedown:
-	migrate -path ./db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate
@@ -22,4 +22,7 @@ sqlc:
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb migrateup pgadmin migratedown sqlc
+server:
+	go run main.go
+
+.PHONY: postgres createdb dropdb migrateup pgadmin migratedown sqlc test server
