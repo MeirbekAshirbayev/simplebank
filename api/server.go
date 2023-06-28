@@ -1,7 +1,6 @@
 package api
 
 import (
-	"go/token"
 	db "simplebank/db/sqlc"
 
 	"github.com/gin-gonic/gin"
@@ -10,13 +9,11 @@ import (
 )
 
 type Server struct {
-	store      db.Store
-	tokenMaker token.Maker
-	router     *gin.Engine
+	store  db.Store
+	router *gin.Engine
 }
 
 func NewServer(store db.Store) *Server {
-	tokenMaker, err := token.NewPasetMaker("")
 	server := &Server{store: store}
 	router := gin.Default()
 
