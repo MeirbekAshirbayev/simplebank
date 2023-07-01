@@ -22,7 +22,10 @@ func TestGetAccountAPI(t *testing.T) {
 	store := mockdb.NewMockStore(ctr1)
 	store.EXPECT().GetAccount(gomock.Any(), gomock.Eq(account.ID)).Times(1).Return(account, nil)
 
-	server := NewServer(store)
+	config, err := util.LoadConfig(".")
+	require.NoError(t, err)
+
+	server, err := NewServer(config, store)
 	recorder := httptest.NewRecorder()
 
 	url := fmt.Sprintf("/account/%d", account.ID)
